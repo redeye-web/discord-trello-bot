@@ -84,8 +84,14 @@ CLAN_TRELLO = {
 # ---- READY ----
 @client.event
 async def on_ready():
-    await tree.sync()
+    try:
+        await tree.sync()
+        print("Slash commands synced globally.")
+    except Exception as e:
+        print("Sync error:", e)
+
     print(f"Bot logged in as {client.user}")
+
 
 # ---- MAIN COMMANDS ----
 @tree.command(name="style")
