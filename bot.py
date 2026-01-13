@@ -10,7 +10,7 @@ tree = app_commands.CommandTree(client)
 # ---- TRE LLO LINKS ----
 STYLE_TRELLO = {
     "combat": "https://trello.com/c/to9HwmQW/61-basic-combat",
-    "street fighthing": "https://trello.com/c/MImGjGHg/176-street-fighting",
+    "street fighting": "https://trello.com/c/MImGjGHg/176-street-fighting",
     "boxing": "https://trello.com/c/81B6bcDU/62-boxing",
     "taekwondo": "https://trello.com/c/WsHGZnuR/63-taekwondo",
     "sumo": "https://trello.com/c/Km751TDO/64-sumo",
@@ -48,18 +48,7 @@ CARD_TRELLO = {
     "raishin": "https://trello.com/c/6pg8f7D7/265-raishin",
     "niko style": "https://trello.com/c/NekQ5g7G/373-niko-style",
     "total violence": "https://trello.com/c/OnUyBHnx/374-total-violence",
-    "primeval": "https://trello.com/c/AesB2dFd/281-primeval",
-    "trance state": "https://trello.com/c/5lvsVmcH/241-trance-state",
-    "primitive": "https://trello.com/c/rwcdwBZ5/278-primitive",
-    "guihun": "https://trello.com/c/8fdqFKP8/402-guihun",
-    "ultra instinct": "https://trello.com/c/BWPi4N4S/240-ultra-instinct",
-    "removal": "https://trello.com/c/j49gRMpW/239-removal",
-    "lightning god": "https://trello.com/c/53NRh30U/266-lightning-god",
-    "congential ultra instinct": "https://trello.com/c/IKPTnDW5/375-congenital-ultra-instinct",
-    "demon back": "https://trello.com/c/3roqnlks/376-demon-back",
-    "advance": "https://trello.com/c/4oxohfFA/377-half-advance",
-    "infinity tech": "https://trello.com/c/gJRtk8DQ/238-infinity-tech",
-    "animal instinct": "https://trello.com/c/SrAIzTkY/237-animal-instinct"
+    "primeval": "https://trello.com/c/AesB2dFd/281-primeval"
 }
 
 MODE_TRELLO = {
@@ -92,105 +81,67 @@ CLAN_TRELLO = {
     "mythic": "https://trello.com/c/mf8Lq4Jn/1-mythic-1"
 }
 
-# ---- AUTOCOMPLETE ----
-async def style_autocomplete(interaction, current):
-    return [app_commands.Choice(name=k.title(), value=k)
-            for k in STYLE_TRELLO if current.lower() in k.lower()][:25]
-
-async def card_autocomplete(interaction, current):
-    return [app_commands.Choice(name=k.title(), value=k)
-            for k in CARD_TRELLO if current.lower() in k.lower()][:25]
-
-async def mode_autocomplete(interaction, current):
-    return [app_commands.Choice(name=k.title(), value=k)
-            for k in MODE_TRELLO if current.lower() in k.lower()][:25]
-
 # ---- READY ----
 @client.event
 async def on_ready():
     await tree.sync()
     print(f"Bot logged in as {client.user}")
 
-# ---- COMMANDS ----
+# ---- MAIN COMMANDS ----
 @tree.command(name="style")
-@app_commands.autocomplete(name=style_autocomplete)
 async def style(interaction: discord.Interaction, name: str):
-    await interaction.response.send_message(STYLE_TRELLO[name])
+    await interaction.response.send_message(STYLE_TRELLO.get(name.lower(), "Not found"))
 
 @tree.command(name="card")
-@app_commands.autocomplete(name=card_autocomplete)
 async def card(interaction: discord.Interaction, name: str):
-    await interaction.response.send_message(CARD_TRELLO[name])
+    await interaction.response.send_message(CARD_TRELLO.get(name.lower(), "Not found"))
 
 @tree.command(name="mode")
-@app_commands.autocomplete(name=mode_autocomplete)
 async def mode(interaction: discord.Interaction, name: str):
-    await interaction.response.send_message(MODE_TRELLO[name])
+    await interaction.response.send_message(MODE_TRELLO.get(name.lower(), "Not found"))
 
 @tree.command(name="psyches")
-@app_commands.choices(
-    rarity=[
-        app_commands.Choice(name="Common", value="common"),
-        app_commands.Choice(name="Rare", value="rare"),
-        app_commands.Choice(name="Legendary", value="legendary"),
-        app_commands.Choice(name="Mythic", value="mythic"),
-    ]
-)
-async def psyches(
-    interaction: discord.Interaction,
-    rarity: app_commands.Choice[str]
-):
-    await interaction.response.send_message(PSYCHES_TRELLO[rarity.value])
+async def psyches(interaction: discord.Interaction, rarity: str):
+    await interaction.response.send_message(PSYCHES_TRELLO.get(rarity.lower(), "Not found"))
 
 @tree.command(name="clan")
-@app_commands.choices(
-    rarity=[
-        app_commands.Choice(name="Evolved", value="evolved"),
-        app_commands.Choice(name="Common", value="common"),
-        app_commands.Choice(name="Uncommon", value="uncommon"),
-        app_commands.Choice(name="Rare", value="rare"),
-        app_commands.Choice(name="Legendary", value="legendary"),
-        app_commands.Choice(name="Mythic", value="mythic"),
-    ]
-)
-async def clan(
-    interaction: discord.Interaction,
-    rarity: app_commands.Choice[str]
-):
-    await interaction.response.send_message(CLAN_TRELLO[rarity.value])
-@tree.command(name="items", description="Show all obtainable items")
+async def clan(interaction: discord.Interaction, rarity: str):
+    await interaction.response.send_message(CLAN_TRELLO.get(rarity.lower(), "Not found"))
+
+# ---- NEW COMMANDS ----
+@tree.command(name="items")
 async def items(interaction: discord.Interaction):
     await interaction.response.send_message("🧾 Items list coming soon.")
 
-@tree.command(name="subskills", description="Show all sub skills")
+@tree.command(name="subskills")
 async def subskills(interaction: discord.Interaction):
     await interaction.response.send_message("⚔️ Subskills list coming soon.")
 
-@tree.command(name="clanskills", description="Show all clan skills")
+@tree.command(name="clanskills")
 async def clanskills(interaction: discord.Interaction):
     await interaction.response.send_message("🏯 Clan skills list coming soon.")
 
-@tree.command(name="boss", description="Show all bosses")
+@tree.command(name="boss")
 async def boss(interaction: discord.Interaction):
     await interaction.response.send_message("👹 Boss list coming soon.")
 
-@tree.command(name="mobs", description="Show all mobs")
+@tree.command(name="mobs")
 async def mobs(interaction: discord.Interaction):
     await interaction.response.send_message("🧟 Mob list coming soon.")
 
-@tree.command(name="npc", description="Show all NPCs")
+@tree.command(name="npc")
 async def npc(interaction: discord.Interaction):
     await interaction.response.send_message("🧍 NPC list coming soon.")
 
-@tree.command(name="shopnpc", description="Show all shop NPCs")
+@tree.command(name="shopnpc")
 async def shopnpc(interaction: discord.Interaction):
     await interaction.response.send_message("🛒 Shop NPC list coming soon.")
 
-@tree.command(name="info", description="Game information")
+@tree.command(name="info")
 async def info(interaction: discord.Interaction):
     await interaction.response.send_message("ℹ️ Ryujin information panel.")
 
-@tree.command(name="questnpc", description="Show all quest NPCs")
+@tree.command(name="questnpc")
 async def questnpc(interaction: discord.Interaction):
     await interaction.response.send_message("📜 Quest NPC list coming soon.")
 
