@@ -158,6 +158,41 @@ async def clan(
     rarity: app_commands.Choice[str]
 ):
     await interaction.response.send_message(CLAN_TRELLO[rarity.value])
+@tree.command(name="items", description="Show all obtainable items")
+async def items(interaction: discord.Interaction):
+    await interaction.response.send_message("🧾 Items list coming soon.")
+
+@tree.command(name="subskills", description="Show all sub skills")
+async def subskills(interaction: discord.Interaction):
+    await interaction.response.send_message("⚔️ Subskills list coming soon.")
+
+@tree.command(name="clanskills", description="Show all clan skills")
+async def clanskills(interaction: discord.Interaction):
+    await interaction.response.send_message("🏯 Clan skills list coming soon.")
+
+@tree.command(name="boss", description="Show all bosses")
+async def boss(interaction: discord.Interaction):
+    await interaction.response.send_message("👹 Boss list coming soon.")
+
+@tree.command(name="mobs", description="Show all mobs")
+async def mobs(interaction: discord.Interaction):
+    await interaction.response.send_message("🧟 Mob list coming soon.")
+
+@tree.command(name="npc", description="Show all NPCs")
+async def npc(interaction: discord.Interaction):
+    await interaction.response.send_message("🧍 NPC list coming soon.")
+
+@tree.command(name="shopnpc", description="Show all shop NPCs")
+async def shopnpc(interaction: discord.Interaction):
+    await interaction.response.send_message("🛒 Shop NPC list coming soon.")
+
+@tree.command(name="info", description="Game information")
+async def info(interaction: discord.Interaction):
+    await interaction.response.send_message("ℹ️ Ryujin information panel.")
+
+@tree.command(name="questnpc", description="Show all quest NPCs")
+async def questnpc(interaction: discord.Interaction):
+    await interaction.response.send_message("📜 Quest NPC list coming soon.")
 
 # ---- RUN ----
 client.run(os.getenv("DISCORD_TOKEN"))
